@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header and Navbar */
+.header {
+    background-color: #2c3e50;
+    padding: 1rem 2rem;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Logo */
+#logo a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.center-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.link-headers {
+    padding: 5px;
+}
+
+.link-headers a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.link-headers a:hover {
+    color: #1abc9c;
+}
+
+/* Auth Links aligned to right */
+.user-auth {
+    margin-left: auto;
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.user-auth a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.user-auth a:hover {
+    color: #1abc9c;
+}
+
+/* Optional user span inside list items */
+.user {
+    margin-left: 0.5rem;
+}
+
+/* Footer at the bottom */
+footer {
+    margin-top: auto;
+    background-color: #579ade;
+    text-align: center;
+    padding: 1rem;
+    color: rgba(244, 236, 236, 0.906);
+    font-size: 18px;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} Home {% endblock title %} </title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block styles %}{% endblock styles %}
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <span id="logo"><a href="{{ url_for('home') }}">Logo</a></span>
+
+            <ul class="center-links">
+                <li class="link-headers"><a href="{{ url_for('home') }}">Dashboard</a></li>
+                <li class="link-headers"><a href="{{ url_for('manage_deadline') }}">Add Deadline</a></li>
+                <li class="link-headers"><a href="{{ url_for('manage_projects') }}">Projects</a></li>
+                <li class="link-headers"><a href="{{ url_for('view_calendar') }}">Calendar</a></li>
+            </ul>
+                
+            <ul class="user-auth">
+                <span class="user" id="auth-links">
+                    <a href="{{ url_for('user_register') }}">Register</a> /
+                    <a href="{{ url_for('user_login') }}">Login</a>
+                </span>
+                <span class="user" id="account-link" style="display: none;">
+                    <a href="#">Account</a>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        {% block content %}
+            Sample Content
+        {% endblock content %}
+    </main>
+
+    <footer> 
+        <p>
+            &copy; 2025 YourWebsiteName. All rights reserved. 
+        </p>
+        <p>
+            Made with ❤️ by Sayan
+        </p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/base.js')}}"></script>
+    {% block scripts %}{% endblock scripts %}
+</body>
+</html>

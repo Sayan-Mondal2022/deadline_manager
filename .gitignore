@@ -1,3 +1,8 @@
+# Python Virtual environment.
 .venv
 
+# API keys are stored.
+.env
+
+# Was meant for testing the file Not needed for the main Project
 sample
