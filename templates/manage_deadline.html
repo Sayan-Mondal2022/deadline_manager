@@ -2,8 +2,63 @@
 
 {% block title %} Add Deadline {% endblock title %}
 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/manage_deadline.css') }}">
+{% endblock styles %}
+
 {% block content %}
-    <div>
-        Manage Deadline Page
+<div class="container">
+    <h2>Add New Deadline</h2>
+    <form id="deadlineForm" action="/add_deadline" method="POST">
+      
+      <label for="type">Deadline Type</label>
+      <select id="type" name="type" required>
+        <option value="">-- Select Type --</option>
+        <option value="Assignment">Assignment</option>
+        <option value="PPT">PPT</option>
+        <option value="Project Review">Project Review</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="title">Title / Description</label>
+      <textarea id="title" name="title" placeholder="Enter deadline details..." required></textarea>
+
+      <label for="due">Due Date & Time</label>
+      <input type="datetime-local" id="due" name="due" required>
+
+      <label for="notify">Notify Before (hours)</label>
+      <input type="number" id="notify" name="notify" value="24" min="1" max="168" required>
+
+      <button type="submit">Add Deadline</button>
+    </form>
+
+    <div id="preview" class="preview-box" style="display:none;">
+      <b>Preview:</b>
+      <p id="previewText"></p>
     </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("deadlineForm");
+    const previewBox = document.getElementById("preview");
+    const previewText = document.getElementById("previewText");
+
+    form.addEventListener("input", () => {
+      const type = document.getElementById("type").value;
+      const title = document.getElementById("title").value;
+      const due = document.getElementById("due").value;
+      const notify = document.getElementById("notify").value;
+
+      if(type && title && due && notify) {
+        previewBox.style.display = "block";
+        previewText.innerHTML = 
+          `📌 <b>${type}</b><br>
+           ✏️ ${title}<br>
+           ⏰ Due: ${new Date(due).toLocaleString()}<br>
+           🔔 Notify: ${notify} hrs before`;
+      } else {
+        previewBox.style.display = "none";
+      }
+    });
+  </script>
 {% endblock content %}

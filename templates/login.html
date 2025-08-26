@@ -3,145 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <title>User Login</title>
-    <style>
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f5f5f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
 
-      form {
-        background: white;
-        padding: 25px;
-        border-radius: 20px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 350px;
-        font-family: cursive;
-      }
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/login.css") }}">
 
-      h2 {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: bold;
-      }
-
-      input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 12px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      .toggle-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .toggle-container input[type="checkbox"] {
-        margin-right: 8px;
-      }
-
-      .message {
-        font-size: 13px;
-        color: #888;
-        margin-top: -8px;
-        margin-bottom: 10px;
-      }
-
-      .error {
-        color: red;
-      }
-
-      .valid {
-        color: green;
-      }
-
-      button {
-        width: 100%;
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <script
+      src="https://kit.fontawesome.com/yourkitid.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
   </head>
   <body>
     <form id="loginForm" action="/login" method="POST">
       <h2>Login</h2>
 
       <label for="username">Username:</label>
-      <input type="text" name="username" id="username" required />
+      <div class="input-container">
+        <input type="text" name="username" id="username" required />
+      </div>
       <div id="usernameMsg" class="message"></div>
 
       <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required />
-      <div id="passwordMsg" class="message"></div>
-
-      <div class="toggle-container">
-        <input type="checkbox" id="showPassword" />
-        <label for="showPassword">Show Password</label>
+      <div class="input-container">
+        <input type="password" name="password" id="password" required />
+        <i class="fa-solid fa-eye-slash eye-icon" id="togglePassword"></i>
       </div>
+      <div id="passwordMsg" class="message"></div>
 
       <button type="submit">Login</button>
     </form>
 
-    <script>
-      // Toggle show password
-      document
-        .getElementById("showPassword")
-        .addEventListener("change", function () {
-          const pwd = document.getElementById("password");
-          pwd.type = this.checked ? "text" : "password";
-        });
-
-      // Username validation
-      document
-        .getElementById("username")
-        .addEventListener("input", function () {
-          const val = this.value;
-          const msg = document.getElementById("usernameMsg");
-
-          if (/^[a-zA-Z0-9]{4,16}$/.test(val)) {
-            msg.textContent = "Valid username ✔";
-            msg.className = "message valid";
-          } else {
-            msg.textContent = "Username must be 4–16 alphanumeric characters";
-            msg.className = "message error";
-          }
-        });
-
-      // Password validation
-      document
-        .getElementById("password")
-        .addEventListener("input", function () {
-          const val = this.value;
-          const msg = document.getElementById("passwordMsg");
-
-          if (val.length >= 6 && !val.includes(" ")) {
-            msg.textContent = "Valid password ✔";
-            msg.className = "message valid";
-          } else {
-            msg.textContent =
-              "Password must be at least 6 characters, no spaces";
-            msg.className = "message error";
-          }
-        });
-    </script>
+    <script src="{{url_for('static', filename="js/login.js")}}"></script>
   </body>
 </html>
