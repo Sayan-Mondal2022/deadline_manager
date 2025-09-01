@@ -2,8 +2,103 @@
 
 {% block title %} Projects {% endblock title %}
 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock styles %}
+
 {% block content %}
-    <div>
-        Projects Page
+<div class="projects-container">
+    <div class="page-header">
+        <h1>My Projects</h1>
+        <p>Manage your deadlines and track your progress</p>
     </div>
+
+    <!-- Due Projects Section -->
+    <section class="projects-section">
+        <h2 class="section-title">
+            <i class="fas fa-hourglass-half"></i>
+            Due Projects
+            <span class="badge">{{ due_projects|length }}</span>
+        </h2>
+        
+        {% if due_projects %}
+        <div class="projects-grid">
+            {% for project in due_projects %}
+            <div class="project-card due">
+                <div class="card-header">
+                    <span class="project-type">{{ project.type }}</span>
+                    <span class="status-badge due">Due</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-details">
+                        <div class="detail-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Due: {{ project.due.strftime("%d %b %Y, %I:%M %p") }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-bell"></i>
+                            <span>Notify: {{ project.notify_before }} hours before</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form action="{{ url_for('mark_complete', deadline_id=project._id) }}" method="POST" class="complete-form">
+                        <button type="submit" class="btn-complete">Mark Complete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-check-circle"></i>
+            <h3>No due projects!</h3>
+            <p>You're all caught up. Time to add a new project?</p>
+            <a href="{{ url_for('manage_deadline') }}" class="btn-add">Add New Project</a>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Completed Projects Section -->
+    <section class="projects-section">
+        <h2 class="section-title">
+            <i class="fas fa-check-circle"></i>
+            Completed Projects
+            <span class="badge">{{ completed_projects|length }}</span>
+        </h2>
+        
+        {% if completed_projects %}
+        <div class="projects-grid">
+            {% for project in completed_projects %}
+            <div class="project-card completed">
+                <div class="card-header">
+                    <span class="project-type">{{ project.type }}</span>
+                    <span class="status-badge completed">Completed</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-details">
+                        <div class="detail-item">
+                            <i class="far fa-calendar-check"></i>
+                            <span>Completed on: {{ project.due.strftime("%d %b %Y, %I:%M %p") }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-tasks"></i>
+            <h3>No completed projects yet</h3>
+            <p>Complete your due projects to see them here.</p>
+        </div>
+        {% endif %}
+    </section>
+</div>
 {% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+{% endblock scripts %}

@@ -2,8 +2,62 @@
 
 {% block title %} Calendar {% endblock title %}
 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css') }}">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+{% endblock styles %}
+
 {% block content %}
-    <div>
-        Calendar Page
+<div class="calendar-container">
+    <!-- Add this hidden div to pass events data to JavaScript -->
+    <div id="calendar-events-data" style="display: none;">{{ events | tojson }}</div>
+    
+    <div class="calendar-header">
+        <h1>Deadline Calendar</h1>
+        <p>View and manage your deadlines in a calendar view</p>
     </div>
+
+    <div class="calendar-controls">
+        <button id="prev-month" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+        <h2 id="current-month-year">September 2023</h2>
+        <button id="next-month" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+        
+        <div class="view-options">
+            <button class="view-btn active" data-view="month">Month</button>
+            <button class="view-btn" data-view="week">Week</button>
+            <button class="view-btn" data-view="day">Day</button>
+        </div>
+        
+        <button id="today-btn" class="today-btn">Today</button>
+    </div>
+
+    <div class="calendar-view">
+        <div class="calendar-weekdays" id="calendar-weekdays">
+            <!-- Weekday headers will be populated by JavaScript for month view -->
+        </div>
+        
+        <div class="calendar-days" id="calendar-days">
+            <!-- Calendar days will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-date">Event Details</h2>
+            <div id="modal-events">
+                <!-- Events will be populated here -->
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+{% endblock scripts %}

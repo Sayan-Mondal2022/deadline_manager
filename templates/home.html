@@ -1,3 +1,144 @@
 {% extends "base.html" %}
 
 {% block title %} Dashboard {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+{% endblock styles %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ username }}! Here's an overview of your deadlines.</p>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card total">
+            <div class="stat-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ total_projects }}</h3>
+                <p>Total Projects</p>
+            </div>
+        </div>
+
+        <div class="stat-card completed">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ completed_projects }}</h3>
+                <p>Completed</p>
+            </div>
+        </div>
+
+        <div class="stat-card pending">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ pending_projects }}</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+
+        <div class="stat-card overdue">
+            <div class="stat-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ overdue_projects }}</h3>
+                <p>Overdue</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="upcoming-deadlines">
+            <h2>Upcoming Deadlines</h2>
+            {% if upcoming_deadlines %}
+            <div class="deadlines-list">
+                {% for deadline in upcoming_deadlines %}
+                <div class="deadline-item {{ deadline.type|replace(' ', '-')|lower }}">
+                    <div class="deadline-date">
+                        <div class="deadline-day">{{ deadline.due.day }}</div>
+                        <div class="deadline-month">{{ deadline.due.strftime('%b') }}</div>
+                    </div>
+                    <div class="deadline-info">
+                        <h3>{{ deadline.title }}</h3>
+                        <p>{{ deadline.type }} • Due {{ deadline.due.strftime('%I:%M %p') }}</p>
+                    </div>
+                    <div class="deadline-actions">
+                        <a href="{{ url_for('manage_projects') }}" class="view-btn">View</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-deadlines">
+                <i class="fas fa-calendar-check"></i>
+                <p>No upcoming deadlines. Great job!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-cards">
+                <a href="{{ url_for('manage_deadline') }}" class="action-card">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Add New Deadline</h3>
+                    <p>Create a new project deadline</p>
+                </a>
+                
+                <a href="{{ url_for('manage_projects') }}" class="action-card">
+                    <i class="fas fa-list-ul"></i>
+                    <h3>View All Projects</h3>
+                    <p>See all your deadlines</p>
+                </a>
+                
+                <a href="{{ url_for('view_calendar') }}" class="action-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Calendar View</h3>
+                    <p>Check your schedule</p>
+                </a>
+            </div>
+
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                {% if recent_activity %}
+                <div class="activity-list">
+                    {% for activity in recent_activity %}
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            {% if activity.type == 'completed' %}
+                            <i class="fas fa-check-circle completed"></i>
+                            {% else %}
+                            <i class="fas fa-plus-circle added"></i>
+                            {% endif %}
+                        </div>
+                        <div class="activity-details">
+                            <p>{{ activity.message }}</p>
+                            <span class="activity-time">{{ activity.time }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-activity">
+                    <i class="fas fa-history"></i>
+                    <p>No recent activity</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock scripts %}
