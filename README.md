@@ -1,4 +1,4 @@
-# Deadline Manager
+# DEADLINE MANAGER
 
 The **Project Deadline Manager** is a powerful and user-friendly web application designed to help individuals and teams efficiently track tasks, manage project deadlines, and stay organized. It ensures that no deadline is missed and all tasks are visible, prioritized, and manageable from a central dashboard.
 
