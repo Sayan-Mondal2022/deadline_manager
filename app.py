@@ -8,7 +8,8 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")  # for session handling
+app.secret_key = "4c1c340a729b21b363c4f96ab8683a95"
+print(app.secret_key)
 bcrypt = Bcrypt(app)
 
 # ---------------- MongoDB ----------------
@@ -203,6 +204,14 @@ def mark_complete(deadline_id):
     from bson.objectid import ObjectId
     deadlines.update_one({"_id": ObjectId(deadline_id)}, {"$set": {"completed": True}})
     flash("✅ Project marked as completed!", "success")
+    return redirect(url_for("manage_projects"))
+
+@app.route("/projects/delete/<deadline_id>", methods=["POST"])
+def delete_deadline(deadline_id):
+    """Delete a deadline"""
+    from bson.objectid import ObjectId
+    deadlines.delete_one({"_id": ObjectId(deadline_id)})
+    flash("🗑️ Project deleted successfully!", "info")
     return redirect(url_for("manage_projects"))
 
 # ---------------- Calendar ----------------

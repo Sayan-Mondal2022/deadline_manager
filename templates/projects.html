@@ -46,6 +46,9 @@
                     <form action="{{ url_for('mark_complete', deadline_id=project._id) }}" method="POST" class="complete-form">
                         <button type="submit" class="btn-complete">Mark Complete</button>
                     </form>
+                    <form action="{{ url_for('delete_deadline', deadline_id=project._id) }}" method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}
@@ -84,6 +87,11 @@
                             <span>Completed on: {{ project.due.strftime("%d %b %Y, %I:%M %p") }}</span>
                         </div>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <form action="{{ url_for('delete_deadline', deadline_id=project._id) }}" method="POST" class="delete-form" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}
