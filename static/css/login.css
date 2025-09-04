@@ -1,5 +1,5 @@
 body {
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
     background-color: #f5f5f5;
     display: flex;
     justify-content: center;
@@ -13,7 +13,7 @@ form {
     border-radius: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 350px;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 h2 {
@@ -37,9 +37,10 @@ input {
     padding-right: 5px;
     border: 1px solid #ccc;
     border-radius: 15px;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
     width: 95%;
     height: 3vh;
+    outline: none;
     margin-bottom: 12px;
 }
 
@@ -76,11 +77,24 @@ button {
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
     transition: all 0.35s;
     height: 7vh;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+#register_user {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+#register_user a{
+    text-decoration: none;
+    color: inherit;
 }

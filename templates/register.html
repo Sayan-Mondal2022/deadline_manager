@@ -18,6 +18,9 @@
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" required>
 
+            <label for="number">Phone no:</label>
+            <input type="number" name="number" id="number" required>
+
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
 
@@ -25,6 +28,10 @@
             <input type="password" name="confirmPassword" id="confirmPassword" required>
 
             <button type="submit">Register</button>
+
+            <span id="user_login">
+                Already have an account?&nbsp&nbsp<a href="{{ url_for('user_login') }}">Login</a>
+            </span>
         </form>
     </div>
 

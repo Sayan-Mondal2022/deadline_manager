@@ -1,17 +1,106 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException # Import the exception
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = "4c1c340a729b21b363c4f96ab8683a95"  # for session handling
+app.secret_key = os.getenv("SECRET_KEY")  # for session handling
 bcrypt = Bcrypt(app)
 
 # ---------------- MongoDB ----------------
-client = MongoClient("mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI")
+client = MongoClient(MONGO_URI)
 db = client["user_db"]
 users = db["users"]
 deadlines = db["deadlines"]
+
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_PHONE = os.getenv("TWILIO_PHONE")  # your Twilio number
+
+client_twilio = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+# MODIFIED for debugging
+def send_sms(to, body):
+    """Sends an SMS and prints detailed logs."""
+    try:
+        # DEBUGGING: Print what is being attempted
+        # print(f"  ➡️  Attempting to send SMS to: {to}")
+        # print(f"      Message Body: '{body}'")
+        
+        message = client_twilio.messages.create(
+            body=body,
+            from_=f"whatsapp:{TWILIO_PHONE}",
+            to=f"whatsapp:{to}",
+        )
+        # DEBUGGING: Print on success
+        print(f"  ✅  SMS sent successfully! SID: {message.sid}")
+        
+    except TwilioRestException as e:
+        # DEBUGGING: Print specific Twilio errors
+        print(f"  ❌  Twilio Error: Failed to send SMS to {to}.")
+        print(f"      Error Code: {e.code}")
+        print(f"      Error Message: {e.msg}")
+    except Exception as e:
+        # DEBUGGING: Print any other unexpected errors
+        print(f"  ❌  An unexpected error occurred during SMS sending: {e}")
+
+# MODIFIED for debugging
+def check_and_notify():
+    """Checks for upcoming deadlines and prints a detailed execution log."""
+    now = datetime.now()
+    # DEBUGGING: Announce that the job is running
+    # print(f"\n--- Scheduler Job Running at {now.strftime('%Y-%m-%d %H:%M:%S')} ---")
+    
+    all_deadlines = list(deadlines.find({"completed": False}))
+    
+    # DEBUGGING: Report how many deadlines are being checked
+    if not all_deadlines:
+        print("🔍 No pending deadlines found to check.")
+        return
+    else:
+        print(f"🔍 Found {len(all_deadlines)} pending deadlines. Checking each...")
+
+    for d in all_deadlines:
+        due = d["due"]
+        notify_before = d.get("notify_before", 0)
+        # notify_time = due - timedelta(hours=notify_before)
+        notify_time = due - timedelta(minutes=notify_before)
+        
+        # DEBUGGING: Print details for each deadline being checked
+        # print(f"\n  Checking '{d['title']}' for user '{d['username']}':")
+        # print(f"    - Current Time:   {now.strftime('%Y-%m-%d %H:%M:%S')}")
+        # print(f"    - Due Time:       {due.strftime('%Y-%m-%d %H:%M:%S')}")
+        # print(f"    - Notify Time:    {notify_time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+        # The core condition to trigger a notification
+        if notify_time <= now < due:
+            # DEBUGGING: Announce that the condition was met
+            print("    - 🎯 CONDITION MET! Preparing to send notification.")
+            
+            user = users.find_one({"username": d["username"]})
+            if user and user.get("number"):
+                # DEBUGGING: Confirm user and number were found
+                print(f"    - User '{user['username']}' found with number '{user['number']}'.")
+                body = f"Reminder: Your project '{d['title']}' is due at {due.strftime('%Y-%m-%d %H:%M')}."
+                send_sms(user["number"], body)
+            else:
+                # DEBUGGING: Report why SMS was not sent
+                if not user:
+                    print(f"    - ⚠️  User '{d['username']}' not found in the database.")
+                else:
+                    print(f"    - ⚠️  User '{d['username']}' found, but has no phone number.")
+        else:
+            # DEBUGGING: Announce that the condition was NOT met
+            print("    - ⏳ Condition not met. No notification sent.")
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=check_and_notify, trigger="interval", minutes=1)
+scheduler.start()
 
 # ---------------- Context Processor ----------------
 @app.context_processor
@@ -158,6 +247,7 @@ def user_register():
     if request.method == "POST":
         username = request.form["username"]
         email = request.form["email"]
+        number = request.form["number"]
         password = bcrypt.generate_password_hash(request.form["password"]).decode("utf-8")
 
         if users.find_one({"username": username}):
@@ -167,6 +257,7 @@ def user_register():
         users.insert_one({
             "username": username,
             "email": email,
+            "number": number,
             "password": password
         })
 

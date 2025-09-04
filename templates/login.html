@@ -16,24 +16,31 @@
     />
   </head>
   <body>
-    <form id="loginForm" action="/login" method="POST">
-      <h2>Login</h2>
+    <div>
+      <form id="loginForm" action="/login" method="POST">
+        <h2>Login</h2>
+  
+        <label for="username">Username:</label>
+        <div class="input-container">
+          <input type="text" name="username" id="username" required />
+        </div>
+        <div id="usernameMsg" class="message"></div>
+  
+        <label for="password">Password:</label>
+        <div class="input-container">
+          <input type="password" name="password" id="password" required />
+          <i class="fa-solid fa-eye-slash eye-icon" id="togglePassword"></i>
+        </div>
+        <div id="passwordMsg" class="message"></div>
+  
+        <button type="submit">Login</button>
 
-      <label for="username">Username:</label>
-      <div class="input-container">
-        <input type="text" name="username" id="username" required />
-      </div>
-      <div id="usernameMsg" class="message"></div>
+        <span id="register_user">
+          Don't have an account?&nbsp&nbsp<a href="{{ url_for('user_register') }}">Register</a>
+        </span>
+      </form>
+    </div>
 
-      <label for="password">Password:</label>
-      <div class="input-container">
-        <input type="password" name="password" id="password" required />
-        <i class="fa-solid fa-eye-slash eye-icon" id="togglePassword"></i>
-      </div>
-      <div id="passwordMsg" class="message"></div>
-
-      <button type="submit">Login</button>
-    </form>
 
     <script src="{{url_for('static', filename="js/login.js")}}"></script>
   </body>

@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f7f8;
     display: flex;
-    height: 100vh;
+    height: 97vh;;
     justify-content: center;
     align-items: center;
 }
@@ -13,7 +13,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     width: 350px;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 h2 {
@@ -48,7 +48,7 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: cursive;
+    font-family: 'Times New Roman', Times, serif;
     height: 6vh;
     transition: all 0.35s;
     font-size: 18px;
@@ -62,4 +62,17 @@ button:hover {
     color: red;
     margin-top: 1rem;
     text-align: center;
+}
+
+#user_login{
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+#user_login a{
+    text-decoration: none;
+    color: inherit;
 }
