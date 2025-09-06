@@ -4,12 +4,74 @@ The **Deadline Manager** is a powerful and user-friendly web application designe
 
 ---
 
+## 🖥️ User Interface Overview
+
+### 📊 Dashboard View
+<img width="1874" height="914" alt="image" src="https://github.com/user-attachments/assets/a732336b-e5d7-4789-93f6-7ba9052e4386" />
+
+### 📌 Task Management
+<img width="748" height="926" alt="image" src="https://github.com/user-attachments/assets/6780c32b-cc8d-462e-8c87-f26f9b35d187" />
+
+### 📂 Task Overview
+<img width="1914" height="978" alt="image" src="https://github.com/user-attachments/assets/0d7b3ebf-17ed-48e9-864b-11b7f7cca2e3" />
+
+### 📅 Calendar View
+<img width="1915" height="982" alt="image" src="https://github.com/user-attachments/assets/370be46f-a3f8-4ce5-8e6e-18894e1c7188" />
+
+
+---
+
+## 🚀 Features
+
+### 📌 Task Management
+- Add new tasks (projects) with the following details:
+  - **Task Name** – A clear title for your task.
+  - **Task Deadline** – Specify a due date and time.
+  - **Description** – Provide additional details about the task.
+  - **Notify Period** – Set a reminder period before the deadline.
+
+### 📂 Task Overview
+- View all your tasks and deadlines on a single page.
+- Perform quick actions on tasks:
+  - **Mark as Completed** – Update task status when finished.
+  - **Delete Task** – Remove tasks that are no longer needed.
+  - **View Details** – Review complete task information.
+
+### 📅 Calendar View
+- Display all tasks visually in a calendar format.
+- Easily track deadlines based on dates.
+
+### 📊 Dashboard
+- Get a summarized view of all tasks:
+  - **Completed Tasks** – Tasks that have been successfully finished.
+  - **Due Tasks** – Pending tasks approaching their deadlines.
+  - **Overdue Tasks** – Tasks that have passed their deadline.
+
+---
+
 ## 🚀 Tech Stack
 
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Backend:** Flask
 - **Database:** MongoDB 
 - **Notifications:** Twilio API for WhatsApp notification
+
+---
+
+## 🗂 Project Structure
+
+```bash
+deadline_manager/
+├── static/
+│   └── css/
+│   └── images/
+│   └── js/
+├── templates/
+├── .gitignore
+├── README.md
+├── app.py
+└── requirements.txt
+```
 
 ---
 
@@ -62,7 +124,7 @@ python app.py
 
 ---
 
-## 📌 Acknowledgement  
+## 🙏 Acknowledgement  
 
 I would like to acknowledge and express my gratitude to the open-source community and the developers behind the technologies that made this project possible.  
 
