@@ -69,8 +69,8 @@ def check_and_notify():
     for d in all_deadlines:
         due = d["due"]
         notify_before = d.get("notify_before", 0)
-        # notify_time = due - timedelta(hours=notify_before)
-        notify_time = due - timedelta(minutes=notify_before)
+        notify_time = due - timedelta(hours=notify_before)
+        # notify_time = due - timedelta(minutes=notify_before)
         
         # DEBUGGING: Print details for each deadline being checked
         # print(f"\n  Checking '{d['title']}' for user '{d['username']}':")
